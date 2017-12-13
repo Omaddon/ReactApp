@@ -14,7 +14,7 @@ export default class Screen1 extends Component {
             <View>
                 <Text>Esta es la Screen1</Text>
                 <Button
-                    onPress={() => this._goScreen2()}
+                    onPress={ () => this._goScreen2() }
                     title='Ir a la Screen2'
                 />
             </View>
