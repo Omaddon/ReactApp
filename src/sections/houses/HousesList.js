@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, Image } from 'react-native';
 import { AsyncCalls, Colors } from 'react_app/src/commons'
 
 export default class HousesList extends Component {
@@ -39,9 +39,14 @@ export default class HousesList extends Component {
             { backgroundColor: Colors.cellSelected } : { backgroundColor: Colors.cell }
         const titleStyle = isSelected ? { color: Colors.titleSelected} : { color: Colors.titleDefault }
         const buttonColor = isSelected ? Colors.titleSelected : Colors.titleDefault
+        const imagen = item.image_dir
         return(
             <View style={ [styles.cell, cellStyle] }>
                 <Text style={ titleStyle }>{ item.nombre }</Text>
+                <Image
+                    style={{ width: 150, height: 150 }}
+                    source={{ uri: imagen }}
+                />
                 <Button
                     color={ buttonColor }
                     title='Pulsa para log'
