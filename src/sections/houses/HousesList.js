@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
-import axios from 'axios'
+import { AsyncCalls, Colors } from 'react_app/src/commons'
 
 export default class HousesList extends Component {
 
@@ -14,11 +14,11 @@ export default class HousesList extends Component {
     }
 
     componentWillMount() {
-        axios.get('http://146.185.137.85/got/web/casas')
+        AsyncCalls.fetchHousesList()
         .then((response) => {
             //console.log("axios get response: ", response);
-            const nuestraLista = response.data && response.data.records ? response.data.records : []
-            this.setState({ list: nuestraLista })
+            const newList = response.data && response.data.records ? response.data.records : []
+            this.setState({ list: newList })
         })
         .catch((error) => {
             console.log("axios get error: ", error);
@@ -35,9 +35,10 @@ export default class HousesList extends Component {
 
     renderItem(item, index) {
         const isSelected = this.checkIsSelected(item)
-        const cellStyle = isSelected ? { backgroundColor: 'blue'} : { backgroundColor: 'grey' }
-        const titleStyle = isSelected ? { color: 'white'} : { color: 'black' }
-        const buttonColor = isSelected ? 'white' : 'black'
+        const cellStyle = isSelected ? 
+            { backgroundColor: Colors.cellSelected } : { backgroundColor: Colors.cell }
+        const titleStyle = isSelected ? { color: Colors.titleSelected} : { color: Colors.titleDefault }
+        const buttonColor = isSelected ? Colors.titleSelected : Colors.titleDefault
         return(
             <View style={ [styles.cell, cellStyle] }>
                 <Text style={ titleStyle }>{ item.nombre }</Text>

@@ -1,0 +1,5 @@
+export const red = 'red'
+export const cellSelected = 'blue'
+export const cell = 'grey'
+export const titleSelected = 'white'
+export const titleDefault = 'black'
