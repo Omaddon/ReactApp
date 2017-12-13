@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
 import axios from 'axios'
 
 export default class HousesList extends Component {
@@ -25,13 +25,26 @@ export default class HousesList extends Component {
         });
     }
 
-    renderItem(item) {
+    checkIsSelected(item) {
+        return (this.state.selected && this.state.selected.id == item.id ) ? true : false
+    }
+
+    onSelectedItem(item) {
+        this.setState({ selected: item })
+    }
+
+    renderItem(item, index) {
+        const isSelected = this.checkIsSelected(item)
+        const cellStyle = isSelected ? { backgroundColor: 'blue'} : { backgroundColor: 'grey' }
+        const titleStyle = isSelected ? { color: 'white'} : { color: 'black' }
+        const buttonColor = isSelected ? 'white' : 'black'
         return(
-            <View style={{ height: 200, backgroundColor: 'red', marginVertical: 10 }}>
-                <Text>{ item.nombre }</Text>
+            <View style={ [styles.cell, cellStyle] }>
+                <Text style={ titleStyle }>{ item.nombre }</Text>
                 <Button
+                    color={ buttonColor }
                     title='Pulsa para log'
-                    onPress={ () => this.setState({ selected: item }) }
+                    onPress={ () => this.onSelectedItem(item) }
                 />
             </View>
         )
@@ -41,10 +54,14 @@ export default class HousesList extends Component {
         const name = this.state.selected ? this.state.selected.nombre : ''
         return (
             <View>
-                <Text>{ name }</Text>
+                <Text style={ styles.title }>{ name }</Text>
                 <FlatList
                     data={ this.state.list }
-                    renderItem={ ({item}) => this.renderItem(item) } 
+                    renderItem={ ({item, index}) => this.renderItem(item, index) }
+                    // Necesitamos añadirle una key a todo objeto iterable
+                    keyExtractor={ (item, index) => item.id }
+                    // Un observador para decirle cuándo repintar
+                    extraData={ this.state }
                 />
             </View>
         )
@@ -54,3 +71,15 @@ export default class HousesList extends Component {
         this.setState({ texto: 'Texto cambiado' })
     }
 }
+
+const styles = StyleSheet.create({
+    cell: {
+        height: 200,
+        marginVertical: 10
+    },
+    title: {
+        fontSize: 20, 
+        textAlign: 'center', 
+        marginVertical: 20 
+    }
+})
