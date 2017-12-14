@@ -59,7 +59,7 @@ export default class HousesList extends Component {
     render() {
         const name = this.state.selected ? this.state.selected.nombre : ''
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <Text style={ styles.title }>{ name }</Text>
                 <FlatList
                     data={ this.state.list }
