@@ -1,0 +1,1 @@
+export const HOUSES_UPDATE_LIST = 'HOUSES_UPDATE_LIST'

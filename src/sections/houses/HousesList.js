@@ -1,33 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { AsyncCalls, Colors } from 'react_app/src/commons'
-import { fetch } from 'react_app/src/webservices/webservices'
 import HousesCell from './HousesCell'
 
-export default class HousesList extends Component {
+/************************ REDUX ************************/
+import { connect } from 'react-redux'
+import * as HousesAction from 'react_app/src/redux/actions/houses'
+/*******************************************************/
 
-    constructor(props) {
-        super(props)
-        
-        this.state = {
-            list: [],
-            selected: null
-        }
-    }
+class HousesList extends Component {
 
     componentWillMount() {
-        fetch('/casas')
-            .then((response) => {
-                //console.log("axios get response: ", response);
-                this.setState({ list: response.records })
-            })
-            .catch((error) => {
-                console.log("axios get error: ", error);
-            });
+        this.props.fetchHousesList()
     }
 
     onSelect(house) {
-        this.setState({ selected: house })
+        
     }
 
     renderItem(item, index) {
@@ -41,10 +29,11 @@ export default class HousesList extends Component {
     }
     
     render() {
+        console.log('this.props.list: ', this.props.list)
         return (
             <View style={ styles.container }>
                 <FlatList
-                    data={ this.state.list }
+                    data={ this.props.list }
                     renderItem={ ({item, index}) => this.renderItem(item, index) }
                     numColumns={ 2 }
                     // Necesitamos añadirle una key a todo objeto iterable
@@ -56,6 +45,27 @@ export default class HousesList extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        // Creamos una prop para el estado global llamada list
+        list: state.houses.list
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        fetchHousesList: () => {
+            // Lanzamos la action
+            dispatch(HousesAction.fetchHousesList())
+        },
+        updateSelected: () => {
+            
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HousesList)
 
 const styles = StyleSheet.create({
     container: {
