@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 
 import HousesList from 'react_app/src/sections/houses/HousesList'
@@ -16,6 +16,8 @@ export default class App extends Component {
   componentWillMount() {
     // Configuramos la baseUrl de axios
     webservices.configureAxios()
+    // Como tenemos un fondo gris, para que se vea bien la statusBar
+    StatusBar.setBarStyle('light-content')
   }
 
   render() {   
@@ -25,6 +27,7 @@ export default class App extends Component {
             <Scene
                 key='HousesList'
                 component={ HousesList }
+                hideNavBar
             />
           </Scene>
       </Router>
