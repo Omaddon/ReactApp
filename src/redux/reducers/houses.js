@@ -1,9 +1,9 @@
 import * as types from '../types/houses'
 
 const initialState = {
-    isFetching: false,
-    list: [],
-    item: null
+    isFetching: false,  // 'True' si se está descargando al lista de casas
+    list: [],           // La lista de casas
+    item: null          // Aquí guardaremos la casa seleccionada
 }
 
 export default function reducer(state = initialState, action = {}) {

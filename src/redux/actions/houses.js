@@ -33,6 +33,7 @@ export function fetchHousesList() {
             })
             .catch((error) => {
                 console.log("axios get error: ", error)
+                dispatch(setHousesFetching(false))
             })
     }
 }

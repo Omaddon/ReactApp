@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react'
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { AsyncCalls, Colors } from 'react_app/src/commons'
 import HousesCell from './HousesCell'
+import { Actions } from 'react-native-router-flux'
 
 /************************ REDUX ************************/
 import { connect } from 'react-redux'
@@ -48,7 +49,7 @@ class HousesList extends Component {
                     // Necesitamos añadirle una key a todo objeto iterable
                     keyExtractor={ (item, index) => item.id }
                     // Un observador para decirle cuándo repintar
-                    extraData={ this.state }
+                    extraData={ this.props }
                 />
             </View>
         )
@@ -72,6 +73,7 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         updateSelected: (house) => {
             dispatch(HousesAction.updateHouseSelected(house))
+            Actions.CharactersList({ title: house.nombre })
         }
     }
 }
@@ -81,7 +83,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(HousesList)
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgb(42, 42, 42)',
-        paddingVertical: 20
+        backgroundColor: Colors.background,
+        paddingVertical: 20,
+        paddingTop: 60
     }
 })
