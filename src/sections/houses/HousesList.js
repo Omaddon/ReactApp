@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { AsyncCalls, Colors } from 'react_app/src/commons'
 import HousesCell from './HousesCell'
 
@@ -15,7 +15,16 @@ class HousesList extends Component {
     }
 
     onSelect(house) {
-        
+        this.props.updateSelected(house)
+    }
+
+    renderFooter() {
+        return <ActivityIndicator 
+                    size='large' 
+                    color='grey' 
+                    animating={ this.props.isFetching }
+                    style={{ marginVertical: 20 }}
+                />
     }
 
     renderItem(item, index) {
@@ -29,11 +38,11 @@ class HousesList extends Component {
     }
     
     render() {
-        console.log('this.props.list: ', this.props.list)
         return (
             <View style={ styles.container }>
                 <FlatList
                     data={ this.props.list }
+                    ListFooterComponent={ () => this.renderFooter() }
                     renderItem={ ({item, index}) => this.renderItem(item, index) }
                     numColumns={ 2 }
                     // Necesitamos añadirle una key a todo objeto iterable
@@ -49,7 +58,9 @@ class HousesList extends Component {
 const mapStateToProps = (state) => {
     return {
         // Creamos una prop para el estado global llamada list
-        list: state.houses.list
+        list: state.houses.list,
+        selected: state.houses.item,
+        isFetching: state.houses.isFetching
     }
 }
 
@@ -59,8 +70,8 @@ const mapDispatchToProps = (dispatch, props) => {
             // Lanzamos la action
             dispatch(HousesAction.fetchHousesList())
         },
-        updateSelected: () => {
-            
+        updateSelected: (house) => {
+            dispatch(HousesAction.updateHouseSelected(house))
         }
     }
 }

@@ -9,17 +9,37 @@ function updateHousesList(value) {
     }
 }
 
+function setHousesFetching(value) {
+    return {
+        type: types.HOUSES_SET_FETCHING,
+        value
+    }
+}
+
 // Función que carga del WS el listado
 export function fetchHousesList() {
     return (dispatch, getState) => {
+
+        // Mientras se descarga los datos, lanzamos el dispatch de "fetching"
+        // Esto podrá activar un spinner o similar
+        dispatch(setHousesFetching(true))
+
         const fetchUrl = '/casas'
         fetch(fetchUrl)
             .then((response) => {
                 const list = response.records
                 dispatch(updateHousesList(list))
+                dispatch(setHousesFetching(false))
             })
             .catch((error) => {
                 console.log("axios get error: ", error)
             })
+    }
+}
+
+export function updateHouseSelected(value) {
+    return {
+        type: types.HOUSES_UPDATE_HOUSE,
+        value
     }
 }
