@@ -45,5 +45,11 @@
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
+  <key>NSPhotoLibraryUsageDescription</key>
+    <string>¿Da permiso para acceder al carrete?</string>
+  <key>NSCameraUsageDescription</key>
+    <string>¿Da permiso para acceder a la cámara?</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>¿Da permiso para guardar imágenes en el carrete?</string>
 </dict>
 </plist>

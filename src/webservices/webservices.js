@@ -37,6 +37,21 @@ export function post(url, data) {
     })
 }
 
+export function remove(url, data) {
+    return new Promise(function(resolve, reject) {
+        axios.delete(url, data)
+            .then( response => {
+                if (response.data)
+                    resolve(response.data)
+                else
+                    reject(response)
+            })
+            .catch(error => {
+                reject(error)
+            })
+    })
+}
+
 // ------------------------------------ Other option ---------------------------------------
 
 export function fetch2(url) {

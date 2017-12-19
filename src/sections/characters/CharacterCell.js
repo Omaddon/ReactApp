@@ -11,9 +11,10 @@ export default class CharacterCell extends Component {
     render() {
 
         const { item, onSelect } = this.props
-        const charImage = item.image_dir ? { uri: item.image_dir } : null
         const name = item.nombre ? item.nombre : ''
         const age = item.edad ? item.edad : ''
+        const charImage = item.image_dir ? 
+            { uri: item.image_dir } : require('react_app/src/resources/placeholder.png')
 
         return (
             <TouchableOpacity onPress={ () => onSelect(item) }>
